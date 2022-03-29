@@ -11,11 +11,13 @@ import java.net.Socket;
  */
 public class EchoClient2
 {
-    static String echo;
+    static String ec;
     String hName = "localhost";
     String pNum = "42";
 
     EchoClientHelper2 help;
+
+    public UI ui;
 
     public EchoClient2()
     {
@@ -32,5 +34,65 @@ public class EchoClient2
         {
             e.printStackTrace();
         }
+
+        try
+      {
+         help = new EchoClientHelper2(hName, pNum, myGui);
+      }
+      catch (IOException e)
+      {
+         e.printStackTrace();
+      }
     }
+
+    public void userLogin(String message)
+   {
+      try
+      {
+         ec = help.login(message);
+         System.out.print(ec);
+      }
+      catch (IOException e)
+      {
+         e.printStackTrace();
+      }
+   }
+
+   public void userLogout(String message)
+   {
+      try
+      {
+         ec = helper.logoff(message);
+         System.out.print(ec);
+      }
+      catch (IOException e) {
+         e.printStackTrace();
+      }
+   }
+
+   public void messageUpload(String message)
+   {
+      try
+      {
+         help.sendMessage(message);
+         System.out.print("Message Received");
+      }
+      catch (IOException e)
+      {
+         e.printStackTrace();
+      }
+   }
+
+   public void messageDownload(String message)
+   {
+      try
+      {
+         ec = helper.downloadMessage(message);
+         System.out.print("\nDownload message ec: " + ec);
+      }
+      catch (IOException e)
+      {
+         e.printStackTrace();
+      }
+   }
 }
