@@ -19,25 +19,26 @@ public class EchoClient2
 
     public UI ui;
 
-    public EchoClient2()
+    public EchoClient2(UI ui)
     {
-        System.setProperty("javax.net.ssl.trustStore", "za.store");
+      this.ui = ui;
+      System.setProperty("javax.net.ssl.trustStore", "za.store");
 
-        try
-        {
-            Socket sock = SSLSocketFactory.getDefault().createSocket("localhost", 3333);
-            BufferedReader sockBuffRead = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-            PrintWriter printWriter = new PrintWriter(sock.getOutputStream(),true);
-            BufferedReader buffRead = new BufferedReader(new InputStreamReader(System.in));
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-
-        try
+      try
       {
-         help = new EchoClientHelper2(hName, pNum, myGui);
+         Socket sock = SSLSocketFactory.getDefault().createSocket("localhost", 3333);
+         BufferedReader sockBuffRead = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+         PrintWriter printWriter = new PrintWriter(sock.getOutputStream(),true);
+         BufferedReader buffRead = new BufferedReader(new InputStreamReader(System.in));
+      }
+      catch (IOException e)
+      {
+         e.printStackTrace();
+      }
+
+      try
+      {
+         help = new EchoClientHelper2(hName, pNum, ui);
       }
       catch (IOException e)
       {
@@ -62,7 +63,7 @@ public class EchoClient2
    {
       try
       {
-         ec = helper.logoff(message);
+         ec = help.logOff(message);
          System.out.print(ec);
       }
       catch (IOException e) {
@@ -87,7 +88,7 @@ public class EchoClient2
    {
       try
       {
-         ec = helper.downloadMessage(message);
+         ec = help.downloadMessage(message);
          System.out.print("\nDownload message ec: " + ec);
       }
       catch (IOException e)

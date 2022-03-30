@@ -1,6 +1,6 @@
 package ClientSide;
 
-import Server.EchoServer3;
+import ServerSide.EchoServer3;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,9 +8,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 
-import static Server.EchoServer3.users;
+import static ServerSide.EchoServer3.users;
 
-public class GUI extends JFrame{
+public class UI extends JFrame{
 
     JFrame login = new JFrame("Login");
     JFrame ActionListener = new JFrame("Hello");
@@ -60,7 +60,7 @@ public class GUI extends JFrame{
         login.add(uNameLabel);
         login.add(uNameField);
         login.add(pWordLabel);
-        login.add(pa: sswordField);
+        login.add(passwordField);
         login.add(btnLogin);
 
         login.setVisible(true);
@@ -86,7 +86,6 @@ public class GUI extends JFrame{
         ActionListener.add(scrollPane);
 
         ActionListener.setVisible(true);
-
     }
 
     private class ButtonEventHandler implements ActionListener
@@ -106,14 +105,14 @@ public class GUI extends JFrame{
 
             if(e.getSource() == sendMBtn)
             {
-                ecClient2.uploadMessage("200 " + mTextBox.getText());
+                ecClient2.messageUpload("200 " + mTextBox.getText());
                 mTextBox.setText("");
             }
 
             if(e.getSource() == downloadMBtn)
             {
                 txtArea.setText("");
-                ecClient2.downloadMessage("300 ");
+                ecClient2.messageDownload("300 ");
             }
 
             if(e.getSource() == logOutBtn)

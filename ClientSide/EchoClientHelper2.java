@@ -1,4 +1,4 @@
-package ClientSide
+package ClientSide;
 
 import java.net.*;
 import java.io.*;
@@ -11,7 +11,7 @@ import java.io.*;
  public class EchoClientHelper2
  {
    static final String endMessage = ".";
-   private MyStreamSocket mySocket;
+   private StreamSocket sock;
    private InetAddress serverHost;
    private int serverPort;
    UI ui;
@@ -21,7 +21,7 @@ import java.io.*;
       this.ui = ui;
       this.serverHost = InetAddress.getByName(hName);
       this.serverPort = Integer.parseInt(pNum);
-      this.mySocket = new MyStreamSocket(this.serverHost, this.serverPort);
+      this.sock = new StreamSocket(this.serverHost, this.serverPort);
       System.out.println("Connection request sent");
 
    }
@@ -30,28 +30,28 @@ import java.io.*;
    public String login(String message) throws SocketException,IOException
    {
       String ec = "";
-      mySocket.sendMessage(message);
-      ec = mySocket.receiveMessage();
+      sock.sendMessage(message);
+      ec = sock.receiveMessage();
       return ec;
    }
 
    public void sendMessage(String message) throws SocketException, IOException
    {
       String ec = "";
-      mySocket.sendMessage(message);
+      sock.sendMessage(message);
    }
 
    public String downloadMessage(String message) throws SocketException,IOException
     {
       String ec = "";
-      mySocket.sendMessage(message);
+      sock.sendMessage(message);
 
-      ec = mySocket.receiveMessage();
+      ec = sock.receiveMessage();
 
-      while(!ec.equals(Complete.isComplete))
+      while(!ec.equals(CheckMessages.isComplete))
       {
          ui.txtArea.append(ec);
-         ec = mySocket.receiveMessage();
+         ec = sock.receiveMessage();
       }
 
       return ec;
@@ -60,14 +60,14 @@ import java.io.*;
    public String logOff(String message) throws SocketException, IOException
    {
       String ec = "";
-      mySocket.sendMessage(message);
-      ec = mySocket.receiveMessage();
+      sock.sendMessage(message);
+      ec = sock.receiveMessage();
       return ec;
    }
 
    public void finish() throws SocketException, IOException
    {
-      mySocket.sendMessage(endMessage);
-      mySocket.close();
+      sock.sendMessage(endMessage);
+      sock.close();
    }
  }

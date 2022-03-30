@@ -8,20 +8,20 @@ import java.io.*;
  * methods for sending and receiving messages
  * @author M. L. Liu
  */
-public class MyStreamSocket extends Socket
+public class StreamSocket extends Socket
 {
    private Socket sock;
    private BufferedReader input;
    private PrintWriter output;
 
-   MyStreamSocket(InetAddress host, int port ) throws SocketException, IOException
+   StreamSocket(InetAddress host, int port ) throws SocketException, IOException
    {
       sock = new Socket(host, port );
       setStreams( );
 
    }
 
-   MyStreamSocket(Socket sock)  throws IOException
+   StreamSocket(Socket sock)  throws IOException
    {
       this.sock = sock;
       setStreams( );
