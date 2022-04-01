@@ -6,8 +6,7 @@ import java.net.*;
  * returning a message and the sender's address
  * @author M. L. Liu
  */
-public class DatagramMessage
-{
+public class DatagramMessage{
     private String message;
     private InetAddress senderAddress;
     private int senderPort;
@@ -32,4 +31,5 @@ public class DatagramMessage
     {
         return this.senderPort;
     }
-}
+} // end class
+

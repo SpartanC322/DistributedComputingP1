@@ -16,14 +16,14 @@ import java.util.Map;
  * @author M. L. Liu
  */
 
-public class EchoServer3
-{
+public class EchoServer3 {
+
     public static ArrayList users = new ArrayList();
-    public static ArrayList<String> messages = new ArrayList();
+    public static ArrayList<String> allMessages = new ArrayList();
 
     public static void main(String[] args) throws IOException
     {
-        int serverPort = 42;  
+        int serverPort = 7;    // default port
         String message;
 
         if (args.length == 1 )
@@ -33,26 +33,33 @@ public class EchoServer3
 
         System.setProperty("javax.net.ssl.trustStore", "za.store");
         System.setProperty("javax.net.ssl.keyStorePassword", "password");
-        ServerSocket serverSock = (SSLServerSocketFactory.getDefault()).createServerSocket(4444);
+        ServerSocket serverSocket = (SSLServerSocketFactory.getDefault()).createServerSocket(4444);
         System.out.println("Server up and ready");
 
         try
         {
-            ServerSocket ConnectionSock = new ServerSocket(serverPort);
+            // instantiates a stream socket for accepting
+            //   connections
+            ServerSocket myConnectionSocket = new ServerSocket(serverPort);
             System.out.println("Echo server ready.");
 
             while (true)
-            {
-                StreamSocket DataSockSSL = new StreamSocket(ConnectionSock.accept( ));
-                System.out.println("Connected");
-                Thread theThreadSSL = new Thread(new EchoServerThread(DataSockSSL));
+            {  // forever loop
+                // wait to accept a connection
+                // System.out.println("Waiting for a connection.");
+                MyStreamSocket myDataSocketSSL = new MyStreamSocket(myConnectionSocket.accept( ));
+                System.out.println("connection accepted");
+                // Start a thread to handle this client's session
+                Thread theThreadSSL = new Thread(new EchoServerThread(myDataSocketSSL));
                 theThreadSSL.start();
-            }
-        }
+                // and go on to the next client
+            } //end while forever
+
+        } // end try
         catch (Exception ex)
         {
             ex.printStackTrace( );
-        }
-    }
-}
+        } // end catch
+    } //end main
+} // end class
 
