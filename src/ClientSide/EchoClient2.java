@@ -11,7 +11,7 @@ import java.net.Socket;
 
 public class EchoClient2 {
 
-    static String ec;
+    static String echo;
     String hName = "localHost";
     String pNum = "42";
 
@@ -50,8 +50,8 @@ public class EchoClient2 {
     {
         try
         {
-            ec = ecHelper.login(message);
-            System.out.print(ec);
+            echo = ecHelper.login(message);
+            System.out.print(echo);
         }
         catch (IOException e)
         {
@@ -78,8 +78,8 @@ public class EchoClient2 {
     {
         try
         {
-            ec = ecHelper.downloadMessage(message);
-            System.out.print("\nDownload message echo: " + ec);
+            echo = ecHelper.downloadMessage(message);
+            System.out.print("\nDownload message echo: " + echo);
         }
         catch (IOException e)
         {
@@ -91,8 +91,8 @@ public class EchoClient2 {
     {
         try
         {
-            ec = ecHelper.logoff(message);
-            System.out.print(ec);
+            echo = ecHelper.logoff(message);
+            System.out.print(echo);
         }
         catch (IOException e) {
             e.printStackTrace();

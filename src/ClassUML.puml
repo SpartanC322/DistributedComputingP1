@@ -1,0 +1,106 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class CheckMessages
+{
++isComplete: String
+}
+class EchoClient2
+{
+-echo: String
+-hName: String
+-pNum: String
+-ecHelper: echoClientHelper2
++ui: GUI
++userLogin(message: String)
++uploadMessage(message: String)
++downloadMessage(message: String)
++userLogout(message: String)
+}
+class EchoClientHelper2
+{
+-endMessage: String
+-socket: MyStreamSocket
+-sHost: InetAddress
+-sPort: int
++ui: GUI
++login(message: String)
++sendMessage(message: String)
++downloadMessage(message: String)
++Logout(message: String)
+}
+class GUI
+{
+-btnHandle: ButtonEventHandler
+-myEchoClient: EchoClient2
+-loginFr: JFrame
+-mainFr: JFrame
+-uNameField: JTextField
+-pWordField: JTextField
++messTextBox: JTextField
++txtArea: JTextField
+-uNameField: JLabel
+-pWordField: JLabel
+-messLabel: JLabel
+-flow: FlowLayout
+-loginBtn: JButton
+-sendBtn: JButton
+-downloadBtn: JButton
+-logoutBtn: JButton
+-scrollPane: JScrollPane
++main(args: String)
++ShowMainGUI()
++closeGUI()
+}
+class MyStreamSocket
+{
+-socket: Socket
+-input: BufferedReader
+-output: PrintWriter
+-setStreams()
++sendMessage(message: String)
++receiveMessage(message: String)
++close()
+}
+class DatagramMessage
+{
+-message: String
+-sendAddress: InetAddress
+-sendPort: int
++getMessage()
++getAddress()
++getPort()
+}
+class EchoServer3
+{
++users: ArrayList<String>
++messages: ArrayList<String>
+-servPort: int
+-message: String
++main(args: String)
+}
+class EchoServerThread
+{
+-myDataSocket: MyStreamSocket
+-done: boolean
+-message: String
+-code: String
+-trimmedMessage: String
+-uName: String
+-pWord: String
+-sendText: String
+-split: String[]
+-uNameExist: boolean
+-ui: GUI
++run()
+}
+
+CheckMessages -- EchoServerThread
+EchoClient2 -- EchoClientHelper2
+EchoServerThread -- MyStreamSocket
+EchoClient2 -- GUI
+EchoServerThread -- EchoClient2
+EchoClient2 -- MyStreamSocket
+EchoServerThread -- EchoServer3
+
+@enduml

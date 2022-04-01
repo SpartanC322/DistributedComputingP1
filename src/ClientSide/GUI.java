@@ -67,7 +67,7 @@ public class GUI extends JFrame
         loginFr.setVisible(true);
     }
 
-    public void showActionsGUI()
+    public void showMainGUI()
     {
         mainFr.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainFr.setLayout(flow);
@@ -108,6 +108,7 @@ public class GUI extends JFrame
 
             }
 
+            //Not working, causes NullPointerException
             if(e.getSource() == sendBtn)
             {
                 System.out.println("Send button clicked");

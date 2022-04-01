@@ -9,10 +9,11 @@ import java.net.*;
 
 public class DatagramMessage
 {
-    private String message;
-    private InetAddress sendAddress;
-    private int sendPort;
-    public void putVal(String message, InetAddress address, int port)
+    private final String message;
+    private final InetAddress sendAddress;
+    private final int sendPort;
+
+    public DatagramMessage(String message, InetAddress address, int port)
     {
         this.message = message;
         this.sendAddress = address;

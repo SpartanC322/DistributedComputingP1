@@ -1,0 +1,10 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Client -> Server: Sends message
+Client --> Server: Adds send code "200" to message
+
+Client <-- Server: message received and displayed
+@enduml

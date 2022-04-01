@@ -11,7 +11,7 @@ import java.io.*;
 public class EchoClientHelper2
 {
     static final String endMessage = ".";
-    private final MyStreamSocket sock;
+    private final MyStreamSocket socket;
     GUI ui;
 
     EchoClientHelper2(String hostName, String portNum, GUI myGui) throws SocketException, UnknownHostException, IOException
@@ -19,36 +19,36 @@ public class EchoClientHelper2
         this.ui = myGui;
         InetAddress sHost = InetAddress.getByName(hostName);
         int sPort = Integer.parseInt(portNum);
-        this.sock = new MyStreamSocket(sHost, sPort);
+        this.socket = new MyStreamSocket(sHost, sPort);
         System.out.println("Connection request made");
     }
 
     public String login( String message) throws SocketException, IOException
     {
         String echo = "";
-        sock.sendMessage( message);
+        socket.sendMessage( message);
 
-        echo = sock.receiveMessage();
+        echo = socket.receiveMessage();
         return echo;
     }
 
     public void sendMessage( String message) throws SocketException, IOException
     {
         String echo = "";
-        sock.sendMessage( message);
+        socket.sendMessage( message);
     }
 
     public String downloadMessage( String message) throws SocketException, IOException
     {
         String echo = "";
-        sock.sendMessage( message);
+        socket.sendMessage( message);
 
-        echo = sock.receiveMessage();
+        echo = socket.receiveMessage();
 
         while(!echo.equals(CheckMessages.isComplete))
         {
             ui.txtArea.append(echo);
-            echo = sock.receiveMessage();
+            echo = socket.receiveMessage();
         }
 
         return echo;
@@ -57,15 +57,15 @@ public class EchoClientHelper2
     public String logoff( String message) throws SocketException, IOException
     {
         String echo = "";
-        sock.sendMessage( message);
-        echo = sock.receiveMessage();
+        socket.sendMessage( message);
+        echo = socket.receiveMessage();
         return echo;
     }
 
     public void done( ) throws SocketException, IOException
     {
-        sock.sendMessage(endMessage);
-        sock.close( );
+        socket.sendMessage(endMessage);
+        socket.close( );
     }
 
 }

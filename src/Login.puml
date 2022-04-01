@@ -1,0 +1,11 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Client -> Server: Login Message containing username and password
+Client -> Server: Login code 100 added to message
+
+Client <-- Server: Verification
+Client <-- Server: Log user
+@enduml

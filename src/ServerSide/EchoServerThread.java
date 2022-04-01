@@ -4,7 +4,7 @@ import ClientSide.GUI;
 
 import java.net.Socket;
 
-import static ServerSide.EchoServer3.allMessages;
+import static ServerSide.EchoServer3.messages;
 import static ServerSide.EchoServer3.users;
 
 /**
@@ -13,8 +13,8 @@ import static ServerSide.EchoServer3.users;
  * @author M. L. Liu
  */
 
-public class EchoServerThread extends Thread {
-
+public class EchoServerThread extends Thread
+{
     MyStreamSocket myDataSocket;
     public GUI ui;
 
@@ -22,6 +22,7 @@ public class EchoServerThread extends Thread {
     {
         this.myDataSocket = (MyStreamSocket) myDataSocket;
         ui = new GUI();
+        //Prevent second login screen
         ui.closeGui();
     }
 
@@ -52,15 +53,11 @@ public class EchoServerThread extends Thread {
 
                     if(split.length <= 4)
                     {
-                        //user name or pWord word is blank
                         myDataSocket.sendMessage("103 Error. Username or Password is blank");
-
-
                     }
 
                     else
                     {
-                        //continue
                         uName = split[1];
                         pWord = split[2];
 
@@ -91,7 +88,7 @@ public class EchoServerThread extends Thread {
                             myDataSocket.sendMessage("102 Login Successful. User added.");
                         }
 
-                        ui.showActionsGUI();
+                        ui.showMainGUI();
                     }
                 }
 
@@ -111,7 +108,7 @@ public class EchoServerThread extends Thread {
                     else
                     {
                         sendText = split[1];
-                        allMessages.add(sendText);
+                        messages.add(sendText);
                     }
                 }
 
@@ -119,7 +116,7 @@ public class EchoServerThread extends Thread {
                 {
                     String currentMessage = "";
 
-                    for (String allMessage : allMessages)
+                    for (String allMessage : messages)
                     {
                         myDataSocket.sendMessage("  " + allMessage);
                     }
