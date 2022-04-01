@@ -11,20 +11,17 @@ import java.io.*;
 public class EchoClientHelper2
 {
     static final String endMessage = ".";
-    private MyStreamSocket sock;
-    private InetAddress sHost;
-    private int sPort;
-    GUI myGui;
+    private final MyStreamSocket sock;
+    GUI ui;
 
     EchoClientHelper2(String hostName, String portNum, GUI myGui) throws SocketException, UnknownHostException, IOException
     {
-        this.myGui = myGui;
-        this.sHost = InetAddress.getByName(hostName);
-        this.sPort = Integer.parseInt(portNum);
-        this.sock = new MyStreamSocket(this.sHost, this.sPort);
+        this.ui = myGui;
+        InetAddress sHost = InetAddress.getByName(hostName);
+        int sPort = Integer.parseInt(portNum);
+        this.sock = new MyStreamSocket(sHost, sPort);
         System.out.println("Connection request made");
     }
-
 
     public String login( String message) throws SocketException, IOException
     {
@@ -50,7 +47,7 @@ public class EchoClientHelper2
 
         while(!echo.equals(CheckMessages.isComplete))
         {
-            myGui.txtArea.append(echo);
+            ui.txtArea.append(echo);
             echo = sock.receiveMessage();
         }
 

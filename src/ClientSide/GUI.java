@@ -1,6 +1,5 @@
 package ClientSide;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,88 +9,88 @@ import java.util.Arrays;
 
 import static ServerSide.EchoServer3.users;
 
-public class GUI extends JFrame{
-
-    static EchoClient2 myEchoClient;
-
-    JFrame loginGUI = new JFrame("Login Screen");
-    JFrame actionsGUI = new JFrame("Welcome User");
+public class GUI extends JFrame
+{
 
     ButtonEventHandler btnHandler;
+    static EchoClient2 myEchoClient;
 
-    JTextField usernameField= new JTextField(50);
-    JPasswordField passwordField = new JPasswordField(50);
-    public JTextField messageTextBox = new JTextField(50);
+    JFrame loginFr = new JFrame("Login Screen");
+    JFrame mainFr = new JFrame("Welcome User");
 
-    JLabel usernameLabel = new JLabel("Username: ");
-    JLabel passwordLabel = new JLabel("Password");
-    JLabel messageLabel = new JLabel("Message Text");
+
+    JTextField uNameField = new JTextField(30);
+    JPasswordField pWordField = new JPasswordField(30);
+    public JTextField messTextBox = new JTextField(30);
+    public JTextArea txtArea = new JTextArea(10, 30);
+
+    JLabel uNameLabel = new JLabel("Username: ");
+    JLabel pWordLabel = new JLabel("Password");
+    JLabel messLabel = new JLabel("Message Text");
 
     FlowLayout flow = new FlowLayout();
 
     JButton loginBtn = new JButton("Login");
-    JButton sendMessageBtn = new JButton("Send Message");
-    JButton downloadMessagesBtn = new JButton("Download all Messages");
-    JButton logoffBtn = new JButton("Logout");
+    JButton sendBtn = new JButton("Send Message");
+    JButton downloadBtn = new JButton("Download all Messages");
+    JButton logoutBtn = new JButton("Logout");
 
-
-    public JTextArea txtArea = new JTextArea(10, 50);
-
-    JScrollPane myScrollPane = new JScrollPane(txtArea);
+    JScrollPane scrollPane = new JScrollPane(txtArea);
 
     public static void main(String[] args)
     {
-        GUI gui = new GUI();
+        GUI ui = new GUI();
 
-        myEchoClient = new EchoClient2(gui);
+        myEchoClient = new EchoClient2(ui);
 
-        users.add("Ryan");
-        users.add("Jaster");
-        users.add("Zegram");
-        users.add("Kisala");
+        users.add("Ben");
+        users.add("Miguel");
     }
 
     public GUI()
     {
-        loginGUI.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        loginGUI.setLayout(flow);
-        loginGUI.setSize(600,200);
+        loginFr.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        loginFr.setLayout(flow);
+        loginFr.setSize(400,200);
 
         btnHandler = new ButtonEventHandler();
 
         loginBtn.addActionListener(btnHandler);
 
         //add components to JFrame
-        loginGUI.add(usernameLabel);
-        loginGUI.add(usernameField);
-        loginGUI.add(passwordLabel);
-        loginGUI.add(passwordField);
-        loginGUI.add(loginBtn);
+        loginFr.add(uNameLabel);
+        loginFr.add(uNameField);
+        loginFr.add(pWordLabel);
+        loginFr.add(pWordField);
+        loginFr.add(loginBtn);
 
-        loginGUI.setVisible(true);
-
-
+        loginFr.setVisible(true);
     }
 
     public void showActionsGUI()
     {
-        actionsGUI.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        actionsGUI.setLayout(flow);
-        actionsGUI.setSize(600, 500);
+        mainFr.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        mainFr.setLayout(flow);
+        mainFr.setSize(500, 300);
 
-        sendMessageBtn.addActionListener(btnHandler);
-        downloadMessagesBtn.addActionListener(btnHandler);
-        logoffBtn.addActionListener(btnHandler);
+        sendBtn.addActionListener(btnHandler);
+        downloadBtn.addActionListener(btnHandler);
+        logoutBtn.addActionListener(btnHandler);
 
-        actionsGUI.add(messageLabel);
-        actionsGUI.add(messageTextBox);
-        actionsGUI.add(sendMessageBtn);
-        actionsGUI.add(downloadMessagesBtn);
-        actionsGUI.add(logoffBtn);
-        actionsGUI.add(myScrollPane);
+        mainFr.add(messLabel);
+        mainFr.add(messTextBox);
+        mainFr.add(sendBtn);
+        mainFr.add(downloadBtn);
+        mainFr.add(logoutBtn);
+        mainFr.add(scrollPane);
 
-        actionsGUI.setVisible(true);
+        mainFr.setVisible(true);
 
+    }
+
+    public void closeGui()
+    {
+        loginFr.setVisible(false);
     }
 
     private class ButtonEventHandler implements ActionListener
@@ -100,44 +99,35 @@ public class GUI extends JFrame{
         {
             if(e.getSource() == loginBtn)
             {
-                //do code for clicking login
-                System.out.println("Clicked Login");
+                System.out.println("Login button clicked");
 
-                //everything is fine, proceed.
-                //Hide login gui until its needed.
-                loginGUI.setVisible(false);
+                loginFr.setVisible(false);
 
-                char[] pass = passwordField.getPassword();
-                myEchoClient.userLogin("100 " + usernameField.getText() + " " + Arrays.toString(pass));
-                //showActionsGUI();
-                //System.out.print("Password" + pass);
+                char[] pass = pWordField.getPassword();
+                myEchoClient.userLogin("100 " + uNameField.getText() + " " + Arrays.toString(pass));
 
-            }//if clicking on login button
+            }
 
-            if(e.getSource() == sendMessageBtn)
+            if(e.getSource() == sendBtn)
             {
-                myEchoClient.uploadMessage("200 " + messageTextBox.getText());
-                messageTextBox.setText("");
+                System.out.println("Send button clicked");
+                myEchoClient.uploadMessage("200 " + messTextBox.getText());
+                messTextBox.setText("");
+            }
 
-
-            }//end of send message button click
-
-            if(e.getSource() == downloadMessagesBtn)
+            if(e.getSource() == downloadBtn)
             {
+                System.out.println("Download button clicked");
                 txtArea.setText("");
                 myEchoClient.downloadMessage("300 ");
-            }//end of click on download message button
+            }
 
-            if(e.getSource() == logoffBtn)
+            if(e.getSource() == logoutBtn)
             {
+                System.out.println("Logout button clicked");
                 myEchoClient.userLogout("400 ");
-                actionsGUI.dispatchEvent(new WindowEvent(actionsGUI, WindowEvent.WINDOW_CLOSING));
-
-            }//end of click on logoff button
+                mainFr.dispatchEvent(new WindowEvent(mainFr, WindowEvent.WINDOW_CLOSING));
+            }
         }
-
-    }//end of button event handler
-
-
-
+    }
 }

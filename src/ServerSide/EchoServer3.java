@@ -16,14 +16,14 @@ import java.util.Map;
  * @author M. L. Liu
  */
 
-public class EchoServer3 {
-
-    public static ArrayList users = new ArrayList();
-    public static ArrayList<String> allMessages = new ArrayList();
+public class EchoServer3
+{
+    public static ArrayList<String> users = new ArrayList<String>();
+    public static ArrayList<String> allMessages = new ArrayList<String>();
 
     public static void main(String[] args) throws IOException
     {
-        int serverPort = 7;    // default port
+        int serverPort = 42;    // default port
         String message;
 
         if (args.length == 1 )
@@ -43,7 +43,7 @@ public class EchoServer3 {
             ServerSocket myConnectionSocket = new ServerSocket(serverPort);
             System.out.println("Echo server ready.");
 
-            while (true)
+            while(true)
             {  // forever loop
                 // wait to accept a connection
                 // System.out.println("Waiting for a connection.");
@@ -56,7 +56,7 @@ public class EchoServer3 {
             } //end while forever
 
         } // end try
-        catch (Exception ex)
+        catch(Exception ex)
         {
             ex.printStackTrace( );
         } // end catch

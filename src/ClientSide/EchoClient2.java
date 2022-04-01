@@ -4,25 +4,24 @@ import javax.net.ssl.SSLSocketFactory;
 import java.io.*;
 import java.net.Socket;
 
-
 /**
  * This module contains the presentaton logic of an Echo Client.
  * @author M. L. Liu
  */
+
 public class EchoClient2 {
 
-    static String echo;
-    String hostName = "localHost";
-    String portNum = "7";
+    static String ec;
+    String hName = "localHost";
+    String pNum = "42";
 
-    EchoClientHelper2 helper;
-    public GUI myGui;
+    EchoClientHelper2 ecHelper;
+    public GUI ui;
 
-    public EchoClient2(GUI myGui)
+    public EchoClient2(GUI ui)
     {
-
-        this.myGui = myGui;
-        System.setProperty("javax.net.ssl.trustStore", "za.store");
+        this.ui = ui;
+        System.setProperty("javax.net.ssl.trustStore", "st.store");
 
         try
         {
@@ -38,7 +37,7 @@ public class EchoClient2 {
 
         try
         {
-            helper = new EchoClientHelper2(hostName, portNum, myGui);
+            ecHelper = new EchoClientHelper2(hName, pNum, ui);
         }
         catch (IOException e)
         {
@@ -47,13 +46,12 @@ public class EchoClient2 {
     }
 
 
-    //method for user to login
-    public void userLogin(String messageReceived)
+    public void userLogin(String message)
     {
         try
         {
-            echo = helper.login(messageReceived);
-            System.out.print(echo);
+            ec = ecHelper.login(message);
+            System.out.print(ec);
         }
         catch (IOException e)
         {
@@ -62,12 +60,11 @@ public class EchoClient2 {
 
     }
 
-    //method for user to send a message
-    public void uploadMessage(String messageReceived)
+    public void uploadMessage(String message)
     {
         try
         {
-            helper.sendMessage(messageReceived);
+            ecHelper.sendMessage(message);
             System.out.println("Message Received");
         }
         catch (IOException e)
@@ -77,12 +74,12 @@ public class EchoClient2 {
 
     }
 
-    public void downloadMessage(String messageReceived)
+    public void downloadMessage(String message)
     {
         try
         {
-            echo = helper.downloadMessage(messageReceived);
-            System.out.print("\nDownload message echo: " + echo);
+            ec = ecHelper.downloadMessage(message);
+            System.out.print("\nDownload message echo: " + ec);
         }
         catch (IOException e)
         {
@@ -90,17 +87,15 @@ public class EchoClient2 {
         }
     }
 
-    public void userLogout(String messageReceived)
+    public void userLogout(String message)
     {
         try
         {
-            echo = helper.logoff(messageReceived);
-            System.out.print(echo);
+            ec = ecHelper.logoff(message);
+            System.out.print(ec);
         }
         catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
-} // end class
+}

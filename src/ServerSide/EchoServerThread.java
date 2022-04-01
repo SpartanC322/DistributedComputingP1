@@ -2,10 +2,6 @@ package ServerSide;
 import ClientSide.CheckMessages;
 import ClientSide.GUI;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 
 import static ServerSide.EchoServer3.allMessages;
@@ -17,38 +13,30 @@ import static ServerSide.EchoServer3.users;
  * @author M. L. Liu
  */
 
-class EchoServerThread extends Thread {
+public class EchoServerThread extends Thread {
 
     MyStreamSocket myDataSocket;
-    GUI myGui;
+    public GUI ui;
 
-    EchoServerThread(Socket myDataSocket)
+    public EchoServerThread(Socket myDataSocket)
     {
         this.myDataSocket = (MyStreamSocket) myDataSocket;
-        myGui = new GUI();
+        ui = new GUI();
+        ui.closeGui();
     }
 
     public void run( )
     {
         boolean done = false;
-        String message;
-        String code = "";
-        String trimmed;
-        String[] splitString;
-        String username = "";
-        String pass = "";
-        String sendMessageText = "";
-        boolean usernameExists = false;
-
-
-        // PrintWriter printWriter = new PrintWriter(myDataSocket.getOutputStream(), true) ;
-        // BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(myDataSocket.getInputStream()));
-        System.out.println("User is" + "now connected to the server");
-        //while(true) System.out.println(bufferedReader.readLine() + "echo");
+        String message, code = "", trimmedMessage, uName = "", pWord = "", sendText = "";
+        String[] split;
+        boolean uNameExist = false;
+        
+        System.out.println("User Connected");
 
         try
         {
-            while (done != true)
+            while (!done)
             {
                 message = myDataSocket.receiveMessage( ) ;
                 System.out.println("message received: "+ message);
@@ -59,12 +47,12 @@ class EchoServerThread extends Thread {
                 {
                     //split up message into parts
                     System.out.println("message received: "+ message);
-                    trimmed = message.trim();
-                    splitString = trimmed.split("\\s+");
+                    trimmedMessage = message.trim();
+                    split = trimmedMessage.split("\\s+");
 
-                    if(splitString.length <= 4)
+                    if(split.length <= 4)
                     {
-                        //user name or pass word is blank
+                        //user name or pWord word is blank
                         myDataSocket.sendMessage("103 Error. Username or Password is blank");
 
 
@@ -73,103 +61,83 @@ class EchoServerThread extends Thread {
                     else
                     {
                         //continue
-                        username = splitString[1];
-                        pass = splitString[2];
+                        uName = split[1];
+                        pWord = split[2];
 
-                        System.out.println(username + "username");
-                        System.out.print(pass + "pass");
+                        System.out.println(uName + "uName");
+                        System.out.print(pWord + "pWord");
 
 
-                        for(int i = 0; i < users.size(); i++)
-                        {
-                            if(users.get(i) == username)
-                            {
-                                //username found get out of loop
-                                usernameExists = true;
+                        for (Object user : users) {
+                            if (user == uName) {
+                                //uName found get out of loop
+                                uNameExist = true;
                                 break;
                             }
                         }//end of for loop
 
-                        if(usernameExists)
+                        if(uNameExist)
                         {
-                            //username exists. Just login
+                            //uName exists
+                            //User logged in
                             myDataSocket.sendMessage("101 Login Successful");
                         }
 
                         else
                         {
-                            //username doesn't exist. Add to list
-                            users.add(username);
+                            //uName does not exist
+                            //User not logged in
+                            users.add(uName);
                             myDataSocket.sendMessage("102 Login Successful. User added.");
-
                         }
 
-                        myGui.showActionsGUI();
-                    }//end else
-
-                }//if code == 100
+                        ui.showActionsGUI();
+                    }
+                }
 
                 if(code.equals("200"))
                 {
-                    //store message
                     System.out.println("201 Message Sent");
-                    trimmed = message.trim();
-                    splitString = trimmed.split("\\s+");
+                    trimmedMessage = message.trim();
+                    split = trimmedMessage.split("\\s+");
 
-                    System.out.println(splitString[1]);
+                    System.out.println(split[1]);
 
-                    if(splitString.length <= 4)
+                    if(split.length <= 4)
                     {
-                        //no message was sent
                         System.out.println("202 No message in text box");
                     }
 
                     else
                     {
-                        sendMessageText = splitString[1];
-                        allMessages.add(sendMessageText);
+                        sendText = split[1];
+                        allMessages.add(sendText);
                     }
-
-                    //make new os
-                    // message stored
-
-                }//if code == 200
+                }
 
                 if(code.equals("300"))
                 {
-                    // get messages
                     String currentMessage = "";
 
-                    for(int i = 0; i< allMessages.size(); i++)
+                    for (String allMessage : allMessages)
                     {
-                        //loop through messages and add to text area
-                        myDataSocket.sendMessage("  " + allMessages.get(i));
-                        //GUI.getMessages(currentMessage);
+                        myDataSocket.sendMessage("  " + allMessage);
                     }
 
                     myDataSocket.sendMessage(CheckMessages.isComplete);
-
-                    // make another os
-                    // little more thinking
-
-                } //if code == 300
+                }
 
                 if(code.equals("400"))
                 {
                     myDataSocket.sendMessage("401 Logged Out");
                     myDataSocket.close();
-                    // take 5 min break
-                    // logout function
-
-                }//if code == 400
-
-            } //end while !done
-        }// end try
-
+                }
+            }
+        }
         catch (Exception ex)
         {
             System.out.println("Exception caught in thread: " + ex);
-        } // end catch
-    } //end run
-} //end class
+        }
+    }
+}
 

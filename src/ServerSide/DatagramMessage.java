@@ -6,15 +6,17 @@ import java.net.*;
  * returning a message and the sender's address
  * @author M. L. Liu
  */
-public class DatagramMessage{
+
+public class DatagramMessage
+{
     private String message;
-    private InetAddress senderAddress;
-    private int senderPort;
-    public void putVal(String message, InetAddress addr, int port)
+    private InetAddress sendAddress;
+    private int sendPort;
+    public void putVal(String message, InetAddress address, int port)
     {
         this.message = message;
-        this.senderAddress = addr;
-        this.senderPort = port;
+        this.sendAddress = address;
+        this.sendPort = port;
     }
 
     public String getMessage( )
@@ -24,12 +26,12 @@ public class DatagramMessage{
 
     public InetAddress getAddress( )
     {
-        return this.senderAddress;
+        return this.sendAddress;
     }
 
     public int getPort( )
     {
-        return this.senderPort;
+        return this.sendPort;
     }
-} // end class
+}
 
