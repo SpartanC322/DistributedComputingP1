@@ -9,10 +9,8 @@ import java.util.Arrays;
 
 import static ServerSide.EchoServer3.users;
 
-public class GUI
+public class GUI implements ActionListener
 {
-
-    ButtonEventHandler btnHandler;
     static EchoClient2 myEchoClient;
 
     JFrame loginFr = new JFrame("Login Screen");
@@ -24,7 +22,7 @@ public class GUI
     public JTextArea txtArea = new JTextArea(10, 30);
 
     JLabel uNameLabel = new JLabel("Username: ");
-    JLabel pWordLabel = new JLabel("Password");
+    JLabel pWordLabel = new JLabel("Password: ");
     JLabel messLabel = new JLabel("Message Text");
 
     FlowLayout flow = new FlowLayout();
@@ -52,11 +50,8 @@ public class GUI
         loginFr.setLayout(flow);
         loginFr.setSize(400,200);
 
-        btnHandler = new ButtonEventHandler();
+        loginBtn.addActionListener(this);
 
-        loginBtn.addActionListener(btnHandler);
-
-        //add components to JFrame
         loginFr.add(uNameLabel);
         loginFr.add(uNameField);
         loginFr.add(pWordLabel);
@@ -72,9 +67,9 @@ public class GUI
         mainFr.setLayout(flow);
         mainFr.setSize(500, 300);
 
-        sendBtn.addActionListener(btnHandler);
-        downloadBtn.addActionListener(btnHandler);
-        logoutBtn.addActionListener(btnHandler);
+        sendBtn.addActionListener(this);
+        downloadBtn.addActionListener(this);
+        logoutBtn.addActionListener(this);
 
         mainFr.add(messLabel);
         mainFr.add(messTextBox);
@@ -84,50 +79,45 @@ public class GUI
         mainFr.add(scrollPane);
 
         mainFr.setVisible(true);
+    }
 
+    public void actionPerformed(ActionEvent e)
+    {
+        if(e.getSource() == loginBtn)
+        {
+            System.out.println("Login button clicked");
+
+            loginFr.setVisible(false);
+
+            char[] pass = pWordField.getPassword();
+            myEchoClient.userLogin("100 " + uNameField.getText() + " " + Arrays.toString(pass));
+        }
+
+        //Not working, causes NullPointerException
+        if(e.getSource() == sendBtn)
+        {
+            System.out.println("Send button clicked");
+            myEchoClient.uploadMessage("200 " + messTextBox.getText());
+            messTextBox.setText("");
+        }
+
+        if(e.getSource() == downloadBtn)
+        {
+            System.out.println("Download button clicked");
+            txtArea.setText("");
+            myEchoClient.downloadMessage("300 ");
+        }
+
+        if(e.getSource() == logoutBtn)
+        {
+            System.out.println("Logout button clicked");
+            myEchoClient.userLogout("400 ");
+            mainFr.dispatchEvent(new WindowEvent(mainFr, WindowEvent.WINDOW_CLOSING));
+        }
     }
 
     public void closeGui()
     {
         loginFr.setVisible(false);
-    }
-
-    private class ButtonEventHandler implements ActionListener
-    {
-        public void actionPerformed(ActionEvent e)
-        {
-            if(e.getSource() == loginBtn)
-            {
-                System.out.println("Login button clicked");
-
-                loginFr.setVisible(false);
-
-                char[] pass = pWordField.getPassword();
-                myEchoClient.userLogin("100 " + uNameField.getText() + " " + Arrays.toString(pass));
-
-            }
-
-            //Not working, causes NullPointerException
-            if(e.getSource() == sendBtn)
-            {
-                System.out.println("Send button clicked");
-                myEchoClient.uploadMessage("200 " + messTextBox.getText());
-                messTextBox.setText("");
-            }
-
-            if(e.getSource() == downloadBtn)
-            {
-                System.out.println("Download button clicked");
-                txtArea.setText("");
-                myEchoClient.downloadMessage("300 ");
-            }
-
-            if(e.getSource() == logoutBtn)
-            {
-                System.out.println("Logout button clicked");
-                myEchoClient.userLogout("400 ");
-                mainFr.dispatchEvent(new WindowEvent(mainFr, WindowEvent.WINDOW_CLOSING));
-            }
-        }
     }
 }
