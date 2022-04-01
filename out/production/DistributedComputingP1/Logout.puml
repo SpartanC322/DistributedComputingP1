@@ -1,0 +1,8 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Client -> Server: User clicks logout
+Server --> Client: User is logged out, returned to login screen
+@enduml

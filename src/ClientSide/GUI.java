@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 import static ServerSide.EchoServer3.users;
 
-public class GUI extends JFrame
+public class GUI
 {
 
     ButtonEventHandler btnHandler;
@@ -17,7 +17,6 @@ public class GUI extends JFrame
 
     JFrame loginFr = new JFrame("Login Screen");
     JFrame mainFr = new JFrame("Welcome User");
-
 
     JTextField uNameField = new JTextField(30);
     JPasswordField pWordField = new JPasswordField(30);

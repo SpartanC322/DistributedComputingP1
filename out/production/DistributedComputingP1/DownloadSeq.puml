@@ -1,0 +1,9 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Client -> Server: User clicks download messages
+Server --> Client: A list containing all messages is retrieved and saved
+
+@enduml
